@@ -1,0 +1,23 @@
+.text {
+  color: darkcyan;
+  font-weight: bold;
+}
+
+.box-shadow {
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px #888888;
+  margin-bottom: 30px;
+}
+
+.bottom {
+  margin-bottom: 10px;
+}
+
+.header {
+  margin-bottom: 30px;
+}
+
+.footer {
+  margin-top: 30px;
+}
