@@ -3,6 +3,7 @@ package handler
 import (
 	"golangweb/entity"
 	"html/template"
+	"log"
 	"net/http"
 	"path"
 	"strconv"
@@ -39,10 +40,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func ProductHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Product Page"))
-}
-
 func ProductIdHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
@@ -65,4 +62,70 @@ func ProductIdHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl.Execute(w, data)
 
+}
+
+func PostGet(w http.ResponseWriter, r *http.Request) {
+	method := r.Method //untuk mengambil GET / POST / ETC
+
+	switch method {
+	case "GET":
+		w.Write([]byte("ini adalah method GET"))
+	case "POST":
+		w.Write([]byte("ini adalah method POST"))
+	default:
+		http.Error(w, "Error is happening", http.StatusBadRequest)
+	}
+}
+
+func Form(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		tmpl, err := template.ParseFiles(path.Join("views", "form.html"), path.Join("views", "layout.html"))
+
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is happening", http.StatusInternalServerError)
+			return
+		}
+
+		tmpl.Execute(w, nil)
+
+		return
+	}
+
+	http.Error(w, "Error Bad Request", http.StatusBadRequest)
+}
+
+func Process(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		err := r.ParseForm()
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is happening", http.StatusInternalServerError)
+			return
+		}
+
+		name := r.Form.Get("name")
+		price := r.Form.Get("price")
+		stock := r.Form.Get("stock")
+
+		data := map[string]interface{}{
+			"name":  name,
+			"price": price,
+			"stock": stock,
+		}
+
+		tmpl, err := template.ParseFiles(path.Join("views", "result.html"), path.Join("views", "layout.html"))
+
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error is happening", http.StatusInternalServerError)
+			return
+		}
+
+		tmpl.Execute(w, data)
+
+		return
+	}
+
+	http.Error(w, "Error Bad Request", http.StatusBadRequest)
 }

@@ -11,9 +11,12 @@ func main() {
 
 	mux.HandleFunc("/", handler.HomeHandler)
 	mux.HandleFunc("/product", handler.ProductIdHandler)
+	mux.HandleFunc("/post-get", handler.PostGet)
+	mux.HandleFunc("/form", handler.Form)
+	mux.HandleFunc("/process", handler.Process)
 
-	fileServer := http.FileServer(http.Dir("assets"))
 	// how to connect/load/import assets
+	fileServer := http.FileServer(http.Dir("assets"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
 	log.Println("Web listening on port: 8080")

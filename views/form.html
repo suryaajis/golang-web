@@ -1,0 +1,25 @@
+{{ template "layout" .}} {{ define "main"}}
+<div class="box-shadow">
+  <form action="/process" method="post">
+    <label for="name">Name</label> <br />
+    <input type="text" name="name" placeholder="tulis nama" /><br /><br />
+
+    <label for="price">Price</label><br />
+    <input
+      type="number"
+      name="price"
+      placeholder="tulis tulis pesan"
+    /><br /><br />
+
+    <label for="stock">Stock</label><br />
+    <input
+      type="number"
+      name="stock"
+      placeholder="tulis tulis pesan"
+    /><br /><br />
+
+    <input type="submit" value="Kirim" />
+  </form>
+</div>
+
+{{ end }}
